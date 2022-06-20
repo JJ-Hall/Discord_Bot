@@ -32,11 +32,10 @@ async def holywater():
     while True:
         channel = bot.get_channel(CHANNELID)
         currentTime = time.time()
-        thenTime = currentTime + 28800
+        thenTime = currentTime + 43200
         waitTime = thenTime - currentTime
         await asyncio.sleep(waitTime)
 
-        await channel.send("Fetching data")
         url = 'https://www.reddit.com/r/GameDeals/new/.json'
         # Do the HTTP get request
         response = requests.get(url, headers = {'User-agent': 'Your Friend Jack'}).json()
@@ -47,8 +46,8 @@ async def holywater():
             postTime = response['data']['children'][i]['data']['created_utc']
             gameTitle = response['data']['children'][i]['data']['title']
             gameUrl = response['data']['children'][i]['data']['url']
-            # check if the post is less than or equal to 8 hours old
-            if currentTime - postTime <= 28800: 
+            # check if the post is less than or equal to 12 hours old
+            if currentTime - postTime <= 43200: 
                 await channel.send(f"""{gameTitle}
                 {gameUrl}""")
                 i+=1
