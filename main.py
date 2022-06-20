@@ -32,8 +32,8 @@ async def holywater():
     while True:
         channel = bot.get_channel(CHANNELID)
         currentTime = time.time()
-        then = currentTime + 3600
-        waitTime = then - currentTime
+        thenTime = currentTime + 28800
+        waitTime = thenTime - currentTime
         await asyncio.sleep(waitTime)
 
         await channel.send("Fetching data")
@@ -45,10 +45,12 @@ async def holywater():
         for games in response['data']['children']:
             
             postTime = response['data']['children'][i]['data']['created_utc']
-            # check if the post is less than or equal to 24 hours old
-            if currentTime - postTime <= 3600: 
-                await channel.send(response['data']['children'][i]['data']['title'])
-                await channel.send(response['data']['children'][i]['data']['url'])
+            gameTitle = response['data']['children'][i]['data']['title']
+            gameUrl = response['data']['children'][i]['data']['url']
+            # check if the post is less than or equal to 8 hours old
+            if currentTime - postTime <= 28800: 
+                await channel.send(f"""{gameTitle}
+                {gameUrl}""")
                 i+=1
             else:
                 break
